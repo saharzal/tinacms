@@ -1,11 +1,14 @@
-import Head from 'next/head'
-import Image from 'next/image'
-import { Inter } from 'next/font/google'
-import styles from '@/styles/Home.module.css'
+import Head from "next/head";
+import Image from "next/image";
+import { Inter } from "next/font/google";
+import styles from "@/styles/Home.module.css";
+import client from "@/tina/__generated__/client";
 
-const inter = Inter({ subsets: ['latin'] })
+const inter = Inter({ subsets: ["latin"] });
 
-export default function Home() {
+export default function Home(
+  props: AsyncReturnType<typeof getStaticProps>["props"]
+) {
   return (
     <>
       <Head>
@@ -16,27 +19,8 @@ export default function Home() {
       </Head>
       <main className={`${styles.main} ${inter.className}`}>
         <div className={styles.description}>
-          <p>
-            Get started by editing&nbsp;
-            <code className={styles.code}>pages/index.tsx</code>
-          </p>
-          <div>
-            <a
-              href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              By{' '}
-              <Image
-                src="/vercel.svg"
-                alt="Vercel Logo"
-                className={styles.vercelLogo}
-                width={100}
-                height={24}
-                priority
-              />
-            </a>
-          </div>
+          <h1>{props.data.pages.title}</h1>
+          <h3>{props.data.pages.desc}</h3>
         </div>
 
         <div className={styles.center}>
@@ -110,5 +94,19 @@ export default function Home() {
         </div>
       </main>
     </>
-  )
+  );
 }
+
+export const getStaticProps = async () => {
+  const tinaProps = await client.queries.pages({
+    relativePath: "test_page.md",
+  });
+  return {
+    props: {
+      ...tinaProps,
+    },
+  };
+};
+
+export type AsyncReturnType<T extends (...args: any) => Promise<any>> =
+  T extends (...args: any) => Promise<infer R> ? R : any;
