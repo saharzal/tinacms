@@ -4,7 +4,7 @@ import { Octokit } from "@octokit/rest";
 import { Base64 } from "js-base64";
 
 // const isLocal = process.env.TINA_PUBLIC_IS_LOCAL === 'true'
-const isLocal = true;
+const isLocal = false;
 
 if (isLocal) console.log("Running TinaCMS in local mode.");
 else console.log("Running TinaCMS in production mode.");
@@ -28,7 +28,7 @@ if (isLocal) {
   localLevelStore.openConnection();
 }
 
-const githubOnPut = async (key, value) => {
+const githubOnPut = async (key: string, value: string) => {
   let sha;
   try {
     const {

@@ -3,12 +3,15 @@ import Image from "next/image";
 import { Inter } from "next/font/google";
 import styles from "@/styles/Home.module.css";
 import client from "@/tina/__generated__/client";
+import { dbConnection } from "@/lib/dbConnection";
+import { useTina } from "tinacms/dist/react";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export default function Home(
   props: AsyncReturnType<typeof getStaticProps>["props"]
 ) {
+  const data = useTina(props);
   return (
     <>
       <Head>
@@ -19,8 +22,8 @@ export default function Home(
       </Head>
       <main className={`${styles.main} ${inter.className}`}>
         <div className={styles.description}>
-          <h1>{props.data.pages.title}</h1>
-          <h3>{props.data.pages.desc}</h3>
+          <h1>{data?.data?.pages.title}</h1>
+          <h3>{data?.data?.pages.desc}</h3>
         </div>
 
         <div className={styles.center}>
@@ -98,14 +101,23 @@ export default function Home(
 }
 
 export const getStaticProps = async () => {
-  const tinaProps = await client.queries.pages({
+  const tinaProps = await dbConnection.queries.pages({
     relativePath: "test_page.md",
   });
   return {
-    props: {
-      ...tinaProps,
-    },
+    props: tinaProps,
   };
+  // return {
+  //   props: {
+  //     ...(JSON.parse(JSON.stringify(tinaProps)) as {
+  //       data: PagesQuery;
+  //       variables: Exact<{
+  //         relativePath: string;
+  //       }>;
+  //       query: string;
+  //     }),
+  //   },
+  // };
 };
 
 export type AsyncReturnType<T extends (...args: any) => Promise<any>> =

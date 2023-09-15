@@ -1,8 +1,8 @@
 import { defineConfig } from "tinacms";
 export default defineConfig({
-  branch: "",
-  clientId: "",
-  token: "",
+  contentApiUrlOverride: '/api/gql',
+  clientId: "82e3057e-683e-4756-8e32-a22ad613944a",
+  token: process.env.TINA_TOKEN! || "foo",
   build: {
     publicFolder: "public",
     outputFolder: "admin",
@@ -14,6 +14,14 @@ export default defineConfig({
         label: "Pages",
         path: "content/pages",
         format: "md",
+        ui: {
+          router: ({ document }) => {
+            if (document._sys.filename === "test_page") {
+              return `/`;
+            }
+            return undefined;
+          },
+        },
         fields: [
           {
             type: "string",
