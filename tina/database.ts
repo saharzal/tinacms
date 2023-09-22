@@ -1,9 +1,10 @@
+// @ts-ignore
 import { createDatabase, TinaLevelClient } from "@tinacms/datalayer";
 import { MongodbLevel } from "mongodb-level";
 import { Octokit } from "@octokit/rest";
 import { Base64 } from "js-base64";
 
-const isLocal = process.env.TINA_PUBLIC_IS_LOCAL === 'true'
+const isLocal = process.env.TINA_PUBLIC_IS_LOCAL === "true";
 
 if (isLocal) console.log("Running TinaCMS in local mode.");
 else console.log("Running TinaCMS in production mode.");
@@ -56,7 +57,7 @@ const githubOnPut = async (key: string, value: string) => {
   });
 };
 
-const githubOnDelete = async (key) => {
+const githubOnDelete = async (key: string) => {
   let sha;
   try {
     const {

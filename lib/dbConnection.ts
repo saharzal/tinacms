@@ -1,9 +1,16 @@
 import database from "../tina/database";
 import { queries } from "../tina/__generated__/types";
+// @ts-ignore
 import { resolve } from "@tinacms/datalayer";
 import type { TinaClient } from "tinacms/dist/client";
 
-export async function databaseRequest({ query, variables }) {
+export async function databaseRequest({
+  query,
+  variables,
+}: {
+  query: string;
+  variables: object;
+}) {
   const config = {
     useRelativeMedia: true,
   } as any;
@@ -26,7 +33,13 @@ export function getDatabaseConnection<GenQueries = Record<string, unknown>>({
     request: TinaClient<GenQueries>["request"];
   }) => GenQueries;
 }) {
-  const request = async ({ query, variables }) => {
+  const request = async ({
+    query,
+    variables,
+  }: {
+    query: string;
+    variables: object;
+  }) => {
     const data = await databaseRequest({ query, variables });
     console.log("dbConnection");
     return { data: data.data as any, query, variables, errors: data.errors };

@@ -1,7 +1,7 @@
 import { databaseRequest } from "@/lib/dbConnection";
 import database from "@/tina/database";
 
-export default async function handler(req, res) {
+export default async function handler(req: any, res: any) {
   // Add your own Auth here.
   // For example
   // If(!await isAuthorized(token: req.headers.authorization)){
