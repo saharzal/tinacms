@@ -3,8 +3,7 @@ import { MongodbLevel } from "mongodb-level";
 import { Octokit } from "@octokit/rest";
 import { Base64 } from "js-base64";
 
-// const isLocal = process.env.TINA_PUBLIC_IS_LOCAL === 'true'
-const isLocal = false;
+const isLocal = process.env.TINA_PUBLIC_IS_LOCAL === 'true'
 
 if (isLocal) console.log("Running TinaCMS in local mode.");
 else console.log("Running TinaCMS in production mode.");
@@ -30,6 +29,7 @@ if (isLocal) {
 
 const githubOnPut = async (key: string, value: string) => {
   let sha;
+  console.log("githubOnPut", owner, repo, branch, key, token);
   try {
     const {
       // @ts-ignore
@@ -41,7 +41,9 @@ const githubOnPut = async (key: string, value: string) => {
       branch,
     });
     sha = existingSha;
-  } catch (e) {}
+  } catch (e) {
+    console.log("githubOnPut error", e, owner, repo, branch, key, token);
+  }
 
   const { data } = await octokit.repos.createOrUpdateFileContents({
     owner,

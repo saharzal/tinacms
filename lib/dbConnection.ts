@@ -28,6 +28,7 @@ export function getDatabaseConnection<GenQueries = Record<string, unknown>>({
 }) {
   const request = async ({ query, variables }) => {
     const data = await databaseRequest({ query, variables });
+    console.log("dbConnection");
     return { data: data.data as any, query, variables, errors: data.errors };
   };
   const q = queries({

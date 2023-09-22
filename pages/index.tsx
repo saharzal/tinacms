@@ -104,6 +104,7 @@ export const getStaticProps = async () => {
   const tinaProps = await dbConnection.queries.pages({
     relativePath: "test_page.md",
   });
+  console.log("getStaticProps", tinaProps);
   return {
     props: tinaProps,
   };

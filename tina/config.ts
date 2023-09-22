@@ -1,8 +1,12 @@
 import { defineConfig } from "tinacms";
 export default defineConfig({
-  contentApiUrlOverride: '/api/gql',
-  clientId: "82e3057e-683e-4756-8e32-a22ad613944a",
-  token: process.env.TINA_TOKEN! || "foo",
+  contentApiUrlOverride: "/api/gql",
+  clientId: "82e3057e-683e-4756-8e32-a22ad613944a",  
+  admin: {
+    auth: {
+      useLocalAuth: true,
+    },
+  },
   build: {
     publicFolder: "public",
     outputFolder: "admin",

@@ -37,4 +37,4 @@ next-env.d.ts
 tina/__generated__
 
 #enviroment variables
-.env
+*.env
